@@ -17,49 +17,40 @@ def test():
 
     return input
 
-def getNumbers(input):
-
-    data = []
-
-    for bank in input:
-        
-        numbers = []
-
-        combinations = list(itertools.combinations(bank,2))
-        
-        for pair in combinations:
-
-            number = int("".join(pair))
-            numbers.append(number)
-
-        numbers.sort(reverse = True)
-
-        data.append(numbers[0])
-
-    return data
-
-def calculate(data):
+def parse(input, length):
 
     answer = 0
 
-    for number in data:
-        answer += number
+    for bank in input:
+
+        number = ""
+
+        for x in range(length-1, -1, -1):
+
+            if x == 0:
+                digit = max(bank)
+            else:
+                digit = max(bank[ : -x])
+
+            bank = bank[bank.index(digit)+1 : ]
+            number += digit
+
+        answer += int(number)
 
     return answer
 
-
 def part1(input):
 
-    data = getNumbers(input)
-
-    answer = calculate(data)
+    answer = parse(input, 2)
 
     print("Part 1: {}".format(answer))
 
 
 def part2(input):
 
-    print("Part 2: {} ".format(""))
+    answer = parse(input, 12)
+    
+    print("Part 2: {} ".format(answer))
 
 filename = "../input/03.txt"
 input = files.input_as_list(filename)
